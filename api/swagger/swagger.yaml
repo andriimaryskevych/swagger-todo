@@ -4,9 +4,9 @@ info:
   title: ToDo API
 # during dev, should point to your local machine
 host: localhost:10010
-# basePath prefixes all resource paths 
+# basePath prefixes all resource paths
 basePath: /
-# 
+#
 schemes:
   # tip: remove http to make production-grade
   - http
@@ -48,6 +48,60 @@ paths:
         200:
           description: "Successfull todo add"
       x-swagger-router-controller: "AddTodo"
+  /todo/{id}:
+    get:
+      description: "Retrive single todo by id"
+      operationId: "FindTodoById"
+      produces:
+      - "application/json"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Id of todo"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        200:
+          description: "Todo response"
+          schema:
+            $ref: "#/definitions/Todo"
+      x-swagger-router-controller: "FindTodoById"
+    delete:
+      description: "Delete a todo by id"
+      operationId: "DeleteTodoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Todo Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      responses:
+        204:
+          description: "Todo deleted"
+      x-swagger-router-controller: "DeleteTodoById"
+    put:
+      description: "Update todo by id"
+      operationId: "UpdateTodoById"
+      parameters:
+      - name: "id"
+        in: "path"
+        description: "Todo Id"
+        required: true
+        type: "integer"
+        format: "int64"
+      - name: "updated_todo"
+        in: "body"
+        description: "the updated todo"
+        required: true
+        schema:
+          $ref: "#/definitions/Todo"
+      responses:
+        200:
+          description: "Todo Updated"
+        400:
+          description: "Fail updating todo"
   /swagger:
     x-swagger-pipe: swagger_raw
 # complex objects have schema definitions
