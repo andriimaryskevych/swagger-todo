@@ -1,0 +1,78 @@
+swagger: "2.0"
+info:
+  version: "0.0.1"
+  title: ToDo API
+# during dev, should point to your local machine
+host: localhost:10010
+# basePath prefixes all resource paths 
+basePath: /
+# 
+schemes:
+  # tip: remove http to make production-grade
+  - http
+  - https
+# format of bodies a client can send (Content-Type)
+consumes:
+  - application/json
+# format of the responses to the client (Accepts)
+produces:
+  - application/json
+paths:
+  /:
+    get:
+      description: "Returns all todos availiable in the database"
+      operationId: "GetAllTodos"
+      parameters: []
+      responses:
+        200:
+          description: "An array of todos"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Todo"
+      x-swagger-router-controller:
+        "GetAllTodos"
+    post:
+      description: "Add new todo"
+      operationId: "AddTodo"
+      produces:
+      - "application/json"
+      parameters:
+      - in: "body"
+        name: "todo"
+        description: "The todo to be added"
+        required: true
+        schema:
+          $ref: "#/definitions/Todo"
+      responses:
+        200:
+          description: "Successfull todo add"
+      x-swagger-router-controller: "AddTodo"
+  /swagger:
+    x-swagger-pipe: swagger_raw
+# complex objects have schema definitions
+definitions:
+  Todo:
+    type: "object"
+    properties:
+      todo_id:
+        type: "integer"
+        description: "Id for the todo"
+      todo:
+        type: "string"
+        description: "The todo item"
+      datecreated:
+        type: "string"
+        format: "date-time"
+        description: "Time when todo was created"
+      author:
+        type: "string"
+        description: "Creator of todo"
+      duedate:
+        type: "string"
+        format: "date-time"
+        description: "Time when todo should be created"
+      completed:
+        type: "boolean"
+        description: "Indicates if the todo was completed"
+
