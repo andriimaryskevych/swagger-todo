@@ -2,6 +2,8 @@
 
 var SwaggerExpress = require('swagger-express-mw');
 var app = require('express')();
+var cors = require('cors');
+
 module.exports = app; // for testing
 
 var config = {
@@ -11,6 +13,7 @@ var config = {
 SwaggerExpress.create(config, function(err, swaggerExpress) {
   if (err) { throw err; }
 
+  app.use(cors());
   // install middleware
   swaggerExpress.register(app);
 
